@@ -1,3 +1,6 @@
 **/__pycache__
 *.pyc
 venv
+old-oc-lettings-site.sqlite3
+dump.json
+table_dump.sql
