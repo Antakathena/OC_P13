@@ -33,10 +33,11 @@ jobs:
 
 workflows:
   version: 2
-#  sample:
+  prepare:
     jobs:
       - build-lint-test:
           filters:
             branches:
-              only: master
+              only:
+                - master
       #        ignore: /.*/
