@@ -4,3 +4,4 @@ venv
 old-oc-lettings-site.sqlite3
 dump.json
 table_dump.sql
+flake-report

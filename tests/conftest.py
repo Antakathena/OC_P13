@@ -137,4 +137,3 @@ def new_letting(db, new_address):
         adress=new_address
     )
     return new_letting
-

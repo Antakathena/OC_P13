@@ -1,6 +1,4 @@
 import pytest
-from django.contrib.auth.models import User
-from django.test import TestCase
 from profiles import models as profiles
 from lettings import models as lettings
 
