@@ -1,0 +1,27 @@
+version: 2.1
+
+orbs:
+  python: circleci/python@1.5.0
+
+# Define a job to be invoked later in a workflow.
+# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
+jobs:
+  build-and-test:
+    docker:
+      - image: cimg/python:3.10.4
+    # By default it uses the project root's requirements.txt.
+    # CircleCI will report the results back to your Version Control System (VCS) provider.
+
+    steps:
+      - checkout
+      - python/install-packages:
+          pkg-manager: pip
+
+      - run:
+          name: Run tests
+          command: pytest
+
+workflows:
+  sample:
+    jobs:
+      - build-and-test
