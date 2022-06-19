@@ -14,6 +14,7 @@ jobs:
     filters:
       branches:
         only: master
+#        ignore: /.*/
 
     steps:
       - checkout
@@ -33,4 +34,8 @@ jobs:
 workflows:
   sample:
     jobs:
-      - build-lint-test
+      - build-lint-test:
+          filters:
+            branches:
+              only: master
+      #        ignore: /.*/
