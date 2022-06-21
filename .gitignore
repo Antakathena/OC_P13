@@ -6,3 +6,4 @@ dump.json
 table_dump.sql
 flake-report
 .coverage
+.env

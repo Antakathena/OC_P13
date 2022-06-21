@@ -1,44 +1,44 @@
+import environ
 import os
-
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
+
+env = environ.Env()
+
 sentry_sdk.init(
-    dsn="https://c8f4275ec9e447158abc58e5e77837ab@o1292964.ingest.sentry.io/6515520",
+    # dsn="https://c8f4275ec9e447158abc58e5e77837ab@o1292964.ingest.sentry.io/6515520",
     integrations=[
         DjangoIntegration(),
     ],
+    # TODO : plop. si pas indiqué,
+    #  sentry va chercher la dsn dans les variables d'environnement à SENTRY_DSN. Problème :
+    #  depuis que ça marche, les allowed_hosts recommencent à poser problème. y a t'il un lien?
 
-    # Set traces_sample_rate to 1.0 to capture 100%
-    # of transactions for performance monitoring.
-    # We recommend adjusting this value in production.
-    traces_sample_rate=1.0,
-    # The above configuration captures both error and performance data.
+    traces_sample_rate=1.0,  # 1.0 = 100%
+    # captures both error and performance data.
     # To reduce the volume of performance data captured,
     # change traces_sample_rate to a value between 0 and 1.
 
-    # If you wish to associate users to errors (assuming you are using
-    # django.contrib.auth) you may enable sending PII data.
     send_default_pii=True
 )
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
+# False if not in os.environ because of casting above
+DEBUG = env('DEBUG')
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'fp$9^593hsriajg$_%=5trot9g!1qa@ew(o-1#@=&4%=hp46(s'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# Raises Django's ImproperlyConfigured
+# exception if SECRET_KEY not in os.environ
+SECRET_KEY = env('SECRET_KEY')
+# SECRET_KEY = os.getenv('SECRET_KEY') si .env file mais django-environ pas installé
 
 ALLOWED_HOSTS = []
-
-
-# Application definition
+# ALLOWED_HOSTS = env('ALLOWED_HOSTS').split(' ')
+# dans .env : ALLOWED_HOSTS=127.0.0.1, localhost
 
 INSTALLED_APPS = [
     'oc_lettings_site.apps.OCLettingsSiteConfig',
