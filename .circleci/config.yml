@@ -11,10 +11,6 @@ jobs:
       - image: cimg/python:3.10.4
     # By default it uses the project root's requirements.txt.
     # CircleCI will report the results back to your Version Control System (VCS) provider.
-#    filters:
-#      branches:
-#        only: master
-##        ignore: /.*/
 
     steps:
       - checkout

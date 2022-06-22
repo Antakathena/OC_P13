@@ -2,7 +2,10 @@ import environ
 import os
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
-
+# from django.core.management.utils import get_random_secret_key
+# This is one way to be able to run 'collectstatic'
+# during the image build since it needs a secret key but doesn't keep it
+# then add : SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', default=get_random_secret_key())
 
 env = environ.Env()
 
@@ -11,9 +14,7 @@ sentry_sdk.init(
     integrations=[
         DjangoIntegration(),
     ],
-    # TODO : plop. si pas indiqué,
-    #  sentry va chercher la dsn dans les variables d'environnement à SENTRY_DSN. Problème :
-    #  depuis que ça marche, les allowed_hosts recommencent à poser problème. y a t'il un lien?
+    # si pas indiqué, sentry va chercher la dsn dans les variables d'environnement à SENTRY_DSN.
 
     traces_sample_rate=1.0,  # 1.0 = 100%
     # captures both error and performance data.
@@ -29,11 +30,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # False if not in os.environ because of casting above
-DEBUG = env('DEBUG')
+DEBUG = True
 
 # Raises Django's ImproperlyConfigured
 # exception if SECRET_KEY not in os.environ
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = 'fp$9^593hsriajg$_%=5trot9g!1qa@ew(o-1#@=&4%=hp46(s'
 # SECRET_KEY = os.getenv('SECRET_KEY') si .env file mais django-environ pas installé
 
 ALLOWED_HOSTS = []
@@ -131,3 +132,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')

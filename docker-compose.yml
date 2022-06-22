@@ -4,10 +4,10 @@ services:
   app:
     build:
       context: .
+    volumes:
+      - .:/oc_lettings_project
     ports:
       - "8000:8000"
-    volumes:
-      - ./Python-OC-Lettings-FR /Python-OC-Lettings-FR
-    command: sh -c "python manage.py runserver 0.0.0.0:8000"
-    environment:
-      - DEBUG=1
+    image: oc_lettings_project:v3
+    container_name: oc_lettings_container
+    command: python manage.py runserver 0.0.0.0:8000
