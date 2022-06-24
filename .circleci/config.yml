@@ -3,17 +3,14 @@ version: 2.1
 orbs:
   python: circleci/python@2.0.3
 jobs:
-  build:
-    docker:
-      - image: antakathena/oc-lettings-5:latest
-        auth:
-          username: antakathena
-          password: DOCKERHUB_PASSWORD
-  lint-test:
+  build-lint-test:
     docker:
       - image: cimg/python:3.10.4
     steps:
       - checkout
+      - run:
+        name: install dependencies
+        command: pip install -r requirements.txt
       - run:
             name: lint
             command: flake8
@@ -23,18 +20,27 @@ jobs:
 
 workflows:
   version: 2
+  # au-delà de version: 2 pb avec filters
   prepare:
     jobs:
       - build-lint-test:
+      - heroku/deploy-via-git: # Use the pre-configured job, deploy-via-git
+          requires:
+            - build-lint-test
           filters:
             branches:
               only:
                 - master
+
+
+
       #        ignore: /.*/
+#      - image: antakathena/oc-lettings-5:latest
+#        auth:
+#          username: antakathena
+#          password: DOCKERHUB_PASSWORD
 
 
-
-#
 #orbs:
 #  python: circleci/python@2.0.3
 # jobs:
