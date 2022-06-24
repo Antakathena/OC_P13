@@ -10,38 +10,21 @@ try:
         integrations=[
             DjangoIntegration(),
         ],
-        # si pas indiqué, sentry va chercher la dsn dans les variables d'environnement à SENTRY_DSN.
-        # il faudrait trouver un truc comme si pas dsn dans env variables
-        # ou si debug on, alors utiliser celle de settings_secret
-
+        # si pas indiqué, sentry va chercher à SENTRY_DSN dans les variables d'environnement.
         traces_sample_rate=1.0,  # 1.0 = 100%
-        # captures both error and performance data.
-        # To reduce the volume of performance data captured,
-        # change traces_sample_rate to a value between 0 and 1.
-
         send_default_pii=True
     )
-except KeyError as e:
+except KeyError:
     from .settings_secret import SENTRY_DSN
     sentry_sdk.init(
         dsn=SENTRY_DSN,
         integrations=[
             DjangoIntegration(),
         ],
-        # si pas indiqué, sentry va chercher la dsn dans les variables d'environnement à
-        # SENTRY_DSN.
-        # il faudrait trouver un truc comme si pas dsn dans env variables
-        # ou si debug on, alors utiliser celle de settings_secret
-
         traces_sample_rate=1.0,  # 1.0 = 100%
-        # captures both error and performance data.
-        # To reduce the volume of performance data captured,
-        # change traces_sample_rate to a value between 0 and 1.
-
         send_default_pii=True
     )
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # 1 in development is = True, 0 in environment variables is = False
@@ -54,7 +37,7 @@ ALLOWED_HOSTS = []
 ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS')
 if ALLOWED_HOSTS_ENV:
     ALLOWED_HOSTS.extend(ALLOWED_HOSTS.split(','))
-    # dans .env : ALLOWED_HOSTS=127.0.0.1, localhost ?
+    # dans environ : ALLOWED_HOSTS=127.0.0.1, localhost + page Heroku
 
 INSTALLED_APPS = [
     'oc_lettings_site.apps.OCLettingsSiteConfig',
@@ -98,20 +81,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'oc_lettings_site.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'oc-lettings-site.sqlite3'),
     }
 }
-
-
-# Password validation
-# https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -128,10 +103,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/3.0/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -141,7 +112,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
