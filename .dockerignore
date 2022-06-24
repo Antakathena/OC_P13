@@ -7,3 +7,4 @@ table_dump.sql
 flake-report
 .coverage
 .env
+settings_secret.py

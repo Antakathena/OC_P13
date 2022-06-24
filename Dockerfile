@@ -1,6 +1,6 @@
 FROM python:3.10-slim-bullseye
 ENV PYTHONUNBUFFERED=1
-#ENV PATH="/scripts:${PATH}"
+ENV PATH="/scripts:${PATH}"
 
 COPY ./requirements.txt /oc_lettings_project/requirements.txt
 RUN set -ex \
@@ -9,6 +9,9 @@ RUN set -ex \
 WORKDIR /oc_lettings_project
 ADD . .
 CMD ["entrypoint.sh"]
+
+# add LABEL com.circleci.preserve-entrypoint=true? < https://circleci.com/docs/2.0/custom-images
+
 #EXPOSE 8000
 #RUN python manage.py collectstatic --noinput # ça ne passe pas comme ça
 #RUN ls -a
@@ -16,7 +19,6 @@ CMD ["entrypoint.sh"]
 #CMD ["python", "manage.py", "runserver", "0.0.0.0:8000", "--noreload"]
 
 ##CMD [ "gunicorn", "--bind", ":8000", "--workers", "3", "oc_lettings_site.wsgi:application" ]
-
 
 
 
