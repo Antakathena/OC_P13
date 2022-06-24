@@ -5,13 +5,6 @@ from lettings import models as lettings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 
-# We could need fixtures for :
-# user
-# superuser/staff (for admin UI)
-# invalid user
-# profile ( = user FK + favorite city)
-# adress
-
 
 @pytest.fixture
 def new_user_factory(db):
