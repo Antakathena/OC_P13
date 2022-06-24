@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   python: circleci/python@2.0.3
+  heroku: circleci/heroku@1.2.6
 jobs:
   build-lint-test:
     docker:
@@ -9,8 +10,8 @@ jobs:
     steps:
       - checkout
       - run:
-        name: install dependencies
-        command: pip install -r requirements.txt
+          name: install dependencies
+          command: pip install -r requirements.txt
       - run:
             name: lint
             command: flake8
@@ -23,7 +24,9 @@ workflows:
   # au-delà de version: 2 pb avec filters
   prepare:
     jobs:
-      - build-lint-test:
+      - build-lint-test
+  heroku_deploy:
+    jobs:
       - heroku/deploy-via-git: # Use the pre-configured job, deploy-via-git
           requires:
             - build-lint-test
