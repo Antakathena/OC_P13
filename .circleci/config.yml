@@ -22,11 +22,9 @@ jobs:
 workflows:
   version: 2
   # au-delà de version: 2 pb avec filters
-  prepare:
-    jobs:
-      - build-lint-test
   heroku_deploy:
     jobs:
+      - build-lint-test
       - heroku/deploy-via-git: # Use the pre-configured job, deploy-via-git
           requires:
             - build-lint-test
