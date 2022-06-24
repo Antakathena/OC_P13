@@ -33,8 +33,6 @@ workflows:
               only:
                 - master
 
-
-
       #        ignore: /.*/
 #      - image: antakathena/oc-lettings-5:latest
 #        auth:
