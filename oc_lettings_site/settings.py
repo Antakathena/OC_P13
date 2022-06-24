@@ -40,7 +40,7 @@ except KeyError:
 ALLOWED_HOSTS = []
 ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS')
 if ALLOWED_HOSTS_ENV:
-    ALLOWED_HOSTS.extend(ALLOWED_HOSTS.split())
+    ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split())
     # dans environ : ALLOWED_HOSTS=127.0.0.1 localhost page_Heroku
 
 INSTALLED_APPS = [
