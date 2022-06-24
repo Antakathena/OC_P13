@@ -29,13 +29,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # 1 in development is = True, 0 in environment variables is = False
 DEBUG = bool(int(os.environ.get('DEBUG', 1)))
 
-try:
-    SECRET_KEY = os.environ.get('SECRET_KEY')
-    # other SECRET_KEY = os.environ.get('SECRET_KEY', 'dummy_key_in_development')
-except KeyError:
-    # here we get the key from a .gitignore file in development
-    from .settings_secret import DJANGO_SECRET_KEY
-    SECRET_KEY = DJANGO_SECRET_KEY
+SECRET_KEY = os.environ.get('SECRET_KEY', 'dummy_key_in_development')
+
+# try:
+#     SECRET_KEY = os.environ.get('SECRET_KEY')
+# except Exception as e:
+#     print(e)
+#     # here we get the key from a .gitignore file in development
+#     from .settings_secret import DJANGO_SECRET_KEY
+#     SECRET_KEY = DJANGO_SECRET_KEY
 
 ALLOWED_HOSTS = []
 ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS')
@@ -56,6 +58,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # added
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -119,6 +122,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
+# https://devcenter.heroku.com/articles/django-assets
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)

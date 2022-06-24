@@ -1,6 +1,6 @@
 FROM python:3.10-slim-bullseye
 ENV PYTHONUNBUFFERED=1
-ENV PATH="/scripts:${PATH}"
+#ENV PATH="/scripts:${PATH}"
 
 COPY ./requirements.txt /oc_lettings_project/requirements.txt
 RUN set -ex \
@@ -8,7 +8,7 @@ RUN set -ex \
     && pip install --no-cache-dir -r /oc_lettings_project/requirements.txt
 WORKDIR /oc_lettings_project
 ADD . .
-CMD ["entrypoint.sh"]
+#CMD ["entrypoint.sh"]
 
 # add LABEL com.circleci.preserve-entrypoint=true? < https://circleci.com/docs/2.0/custom-images
 
