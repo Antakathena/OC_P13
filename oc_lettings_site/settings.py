@@ -1,7 +1,6 @@
 import os
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
-from .settings_secret import DJANGO_SECRET_KEY
 
 
 try:
@@ -21,7 +20,7 @@ except KeyError:
         integrations=[
             DjangoIntegration(),
         ],
-        traces_sample_rate=1.0,  # 1.0 = 100%
+        traces_sample_rate=1.0,
         send_default_pii=True
     )
 
@@ -30,8 +29,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # 1 in development is = True, 0 in environment variables is = False
 DEBUG = bool(int(os.environ.get('DEBUG', 1)))
 
-SECRET_KEY = os.environ.get('SECRET_KEY', DJANGO_SECRET_KEY)
-# other solution : put 'something_secret' on second position)
+try:
+    SECRET_KEY = os.environ.get('SECRET_KEY')
+    # other SECRET_KEY = os.environ.get('SECRET_KEY', 'dummy_key_in_development')
+except KeyError:
+    # here we get the key from a .gitignore file in development
+    from .settings_secret import DJANGO_SECRET_KEY
+    SECRET_KEY = DJANGO_SECRET_KEY
 
 ALLOWED_HOSTS = []
 ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS')
