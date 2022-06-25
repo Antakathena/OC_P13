@@ -1,7 +1,7 @@
 import os
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
-
+import django_heroku
 
 try:
     sentry_sdk.init(
@@ -124,10 +124,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 # https://devcenter.heroku.com/articles/django-assets
-
-STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+django_heroku.settings(locals(), staticfiles=False)

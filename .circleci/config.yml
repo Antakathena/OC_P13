@@ -20,66 +20,9 @@ jobs:
             command: pytest
 
 workflows:
-  # au-delà de version: 2 pb avec filters
   heroku_deploy:
     jobs:
       - build-lint-test
       - heroku/deploy-via-git: # Use the pre-configured job, deploy-via-git
           requires:
             - build-lint-test
-
-#          filters:
-#            branches:
-#              only:
-#                - master
-
-      #        ignore: /.*/
-#      - image: antakathena/oc-lettings-5:latest
-#        auth:
-#          username: antakathena
-#          password: DOCKERHUB_PASSWORD
-
-# deploy-dev:
-#      machine: true
-#      steps:
-#        - checkout
-#        - run:
-#            name: Build and push Docker image to Heroku
-#            command: |
-#              sudo curl https://cli-assets.heroku.com/install.sh | sh
-#              HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
-#              HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push -a python-django-starter web
-#              HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release -a python-django-starter web
-
-#orbs:
-#  python: circleci/python@2.0.3
-# jobs:
-#   build-lint-test:
-#    docker:
-#      - image: cimg/python:3.10.4
-#    # By default it uses the project root's requirements.txt.
-#     CircleCI will report the results back to your Version Control System (VCS) provider.
-#    steps:
-#      - checkout
-##  - python/install-packages:
-##  pkg-manager: pip
-#      - run:
-#            name: install dependencies
-#            command: pip install -r requirements.txt
-#      - run:
-#            name: lint
-#            command: flake8
-#      - run:
-#            name: run tests
-#            command: pytest
-#
-#workflows:
-#  version: 2
-#  prepare:
-#    jobs:
-#      - build-lint-test:
-#          filters:
-#            branches:
-#              only:
-#                - master
-#      #        ignore: /.*/
