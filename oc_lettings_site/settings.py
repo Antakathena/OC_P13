@@ -31,14 +31,6 @@ DEBUG = bool(int(os.environ.get('DEBUG', 1)))
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'dummy_key_in_development')
 
-# try:
-#     SECRET_KEY = os.environ.get('SECRET_KEY')
-# except Exception as e:
-#     print(e)
-#     # here we get the key from a .gitignore file in development
-#     from .settings_secret import DJANGO_SECRET_KEY
-#     SECRET_KEY = DJANGO_SECRET_KEY
-
 ALLOWED_HOSTS = []
 ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS')
 if ALLOWED_HOSTS_ENV:
