@@ -39,11 +39,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'dummy_key_in_development')
 #     # dans environ : ALLOWED_HOSTS=127.0.0.1 localhost page_Heroku
 #     # ex : 'ALLOWED_HOSTS=127.0.0.1 localhost oc-lettings-33.herokuapp.com'
 
-ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS')
-if ALLOWED_HOSTS_ENV:
-    ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(" ")
-else:
-    ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.herokuapp.com', '0.0.0.0', '127.0.0.1', 'localhost']
 
 
 INSTALLED_APPS = [
