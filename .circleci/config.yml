@@ -48,14 +48,11 @@ jobs:
         steps:
           - checkout
           - run:
-              name: pull image from docker
-              command: |
-                docker pull $IMAGE_NAME:$CIRCLE_SHA1
-              name: tag image for heroku
-              command: |
-                docker tag $IMAGE_NAME:$CIRCLE_SHA1 antakathena/HEROKU_APP_NAME/web
               name: Build and push Docker image to Heroku
               command: |
+                pull image from docker
+                docker pull $IMAGE_NAME:$CIRCLE_SHA1
+                docker tag $IMAGE_NAME:$CIRCLE_SHA1 antakathena/HEROKU_APP_NAME/web
                 sudo curl https://cli-assets.heroku.com/install.sh | sh
                 HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
                 HEROKU_API_KEY=${HEROKU_TOKEN} docker push -a antakathena/HEROKU_APP_NAME/web
