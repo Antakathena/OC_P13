@@ -7,8 +7,6 @@ orbs:
 
 executors:
  docker-publisher:
-   environment:
-    IMAGE_NAME: $IMAGE_NAME
    docker: # Each job requires specifying an executor
    # (either docker, macos, or machine), see
     - image: circleci/node:latest
@@ -42,7 +40,7 @@ jobs:
           name: Publish Docker Image to Docker Hub
           command: |
             echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
-            docker build -t ${IMAGE_NAME} .
+            docker build -t $IMAGE_NAME .
             docker push $IMAGE_NAME:$CIRCLE_SHA1
 
 workflows:
