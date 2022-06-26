@@ -59,10 +59,10 @@ workflows:
   heroku_deploy:
     jobs:
       - build-lint-test
-      - publish-latest-to-DockerHub
+      - publish-latest-to-DockerHub:
           requires:
             - build-lint-test
-      - heroku-deploy
+      - heroku-deploy:
           requires:
             - publish-latest-to-DockerHub
 
