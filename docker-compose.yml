@@ -2,12 +2,12 @@ version: '3.9'
 
 services:
   app:
+    image: oc_lettings_project:v3
     build:
       context: .
     volumes:
       - .:/oc_lettings_project
     ports:
       - "8000:8000"
-    image: oc_lettings_project:oc_lettings
     container_name: oc_lettings_container
     command: python manage.py runserver 0.0.0.0:8000
