@@ -2,7 +2,7 @@ import os
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 # import django_heroku
-
+#
 try:
     sentry_sdk.init(
         # dsn="___",
