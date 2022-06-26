@@ -9,4 +9,4 @@ RUN set -ex \
 WORKDIR /oc_lettings_project
 ADD . .
 #CMD ["entrypoint.sh"]
-CMD gunicorn oc_lettings_site.wsgi:application --bind 0.0.0.0:$PORT
+CMD gunicorn oc_lettings_site.wsgi:application -b 0.0.0.0:8000
