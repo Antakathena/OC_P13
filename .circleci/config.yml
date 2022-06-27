@@ -45,9 +45,11 @@ jobs:
             docker push $IMAGE_NAME:$CIRCLE_SHA1
             
   heroku-deploy:
-    executor: docker-publisher
+    machine: true
     steps:
       - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run:
           name: Install Heroku CLI, if necessary
           command: |
@@ -63,8 +65,8 @@ jobs:
       - run:
           name: Deploy Heroku Docker Container
           command: |
-            heroku container:push -a antakathena/$HEROKU_APP_NAME web
-            heroku container:release  -a antakathena/$HEROKU_APP_NAME web
+            heroku container:push -a $IMAGE_NAME web
+            heroku container:release  -a $IMAGE_NAME web
 
 workflows:
   heroku_deploy:
