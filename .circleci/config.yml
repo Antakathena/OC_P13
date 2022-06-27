@@ -3,7 +3,7 @@ version: 2.1
 orbs:
   python: circleci/python@2.0.3
   docker: circleci/docker@1.5.0
-  heroku: circleci/heroku@1.2.6
+  deploy-to-heroku: rise/deploy-to-heroku@0.0.6
 
 executors:
  docker-publisher:
@@ -45,9 +45,12 @@ jobs:
             docker push $IMAGE_NAME:$CIRCLE_SHA1
             
   heroku-deploy:
-    machine: true
+    machine : true
     steps:
       - checkout
+      - docker/check:
+          docker-username: DOCKERHUB_LOGIN  # DOCKER_LOGIN is the default value, if it exists, it automatically would be used.
+          docker-password: DOCKERHUB_PASSWORD  # DOCKER_PASSWORD is the default value
       - run:
           name: Install Heroku CLI, if necessary
           command: |
