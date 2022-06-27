@@ -3,7 +3,7 @@ version: 2.1
 orbs:
   python: circleci/python@2.0.3
   docker: circleci/docker@1.5.0
-  deploy-to-heroku: rise/deploy-to-heroku@0.0.6
+  heroku: circleci/heroku@1.2.6
 
 executors:
  docker-publisher:
