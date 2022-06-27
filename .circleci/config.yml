@@ -47,13 +47,18 @@ jobs:
   deploy:
     executor: heroku/default
     steps:
-      - checkout
       - setup_remote_docker:
           docker_layer_caching: true
       - docker/check:
           docker-username: DOCKERHUB_LOGIN
           docker-password: DOCKERHUB_PASSWORD
+      - checkout
       - heroku/install
+      - run:
+          name: pull and tag the image from Dockerhub
+          command: |
+            docker pull $IMAGE_NAME:$CIRCLE_SHA1
+            docker tag $IMAGE_NAME:$CIRCLE_SHA1 antakathena/oc-lettings-5/web
       - heroku/push-docker-image
 
 workflows:
