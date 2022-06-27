@@ -10,7 +10,6 @@ executors:
    docker: # Each job requires specifying an executor
    # (either docker, macos, or machine), see
     - image: cimg/node:12.16
-      docker_layer_caching: true
    # vérifier le tag SHA des variables de circleci
       auth:
        username: $DOCKERHUB_USERNAME
@@ -36,7 +35,8 @@ jobs:
     executor: docker-publisher
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run:
           name: Publish Docker Image to Docker Hub
           command: |
