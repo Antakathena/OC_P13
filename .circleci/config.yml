@@ -44,19 +44,19 @@ jobs:
             docker push $IMAGE_NAME:$CIRCLE_SHA1
             
   heroku-deploy:
-        machine: true
-        steps:
-          - checkout
-          - run:
-              name: Build and push Docker image to Heroku
-              command: |
-                docker pull $IMAGE_NAME:$CIRCLE_SHA1
-                docker tag $IMAGE_NAME:$CIRCLE_SHA1 antakathena/$HEROKU_APP_NAME/web
-                sudo curl https://cli-assets.heroku.com/install.sh | sh
-                docker login --username=s.trebatius@gmail.com --password=$HEROKU_API_KEY registry.heroku.com
-                HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
-                HEROKU_API_KEY=${HEROKU_TOKEN} docker push -a antakathena/$HEROKU_APP_NAME/web
-                HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release web
+    machine: true
+    steps:
+      - checkout
+      - run:
+          name: Build and push Docker image to Heroku
+          command: |
+            docker pull $IMAGE_NAME:$CIRCLE_SHA1
+            docker tag $IMAGE_NAME:$CIRCLE_SHA1 antakathena/$HEROKU_APP_NAME/web
+            sudo curl https://cli-assets.heroku.com/install.sh | sh
+            docker login --username=s.trebatius@gmail.com --password=$HEROKU_API_KEY registry.heroku.com
+            HEROKU_API_KEY=$HEROKU_API_KEY heroku container:login
+            HEROKU_API_KEY=$HEROKU_API_KEY docker push -a antakathena/$HEROKU_APP_NAME/web
+            HEROKU_API_KEY=$HEROKU_API_KEY heroku container:release web
 
 workflows:
   heroku_deploy:
