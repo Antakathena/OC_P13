@@ -9,7 +9,8 @@ executors:
  docker-publisher:
    docker: # Each job requires specifying an executor
    # (either docker, macos, or machine), see
-    - image: circleci/node:latest
+    - image: cimg/node:12.16
+      docker_layer_caching: true
    # vérifier le tag SHA des variables de circleci
       auth:
        username: $DOCKERHUB_USERNAME
@@ -44,16 +45,18 @@ jobs:
             docker push $IMAGE_NAME:$CIRCLE_SHA1
             
   heroku-deploy:
-    machine: true
+    executor: docker-publisher
     steps:
       - checkout
       - run:
-          name: Build and push Docker image to Heroku
+          name: Pull and tag image from Dockerhub
           command: |
             docker pull $IMAGE_NAME:$CIRCLE_SHA1
             docker tag $IMAGE_NAME:$CIRCLE_SHA1 antakathena/$HEROKU_APP_NAME/web
+      - run:
+          name: Build and push Docker image to Heroku
+          command: |
             sudo curl https://cli-assets.heroku.com/install.sh | sh
-            docker login --username=s.trebatius@gmail.com --password=$HEROKU_API_KEY registry.heroku.com
             HEROKU_API_KEY=$HEROKU_API_KEY heroku container:login
             HEROKU_API_KEY=$HEROKU_API_KEY docker push -a antakathena/$HEROKU_APP_NAME/web
             HEROKU_API_KEY=$HEROKU_API_KEY heroku container:release web
