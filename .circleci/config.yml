@@ -63,8 +63,9 @@ jobs:
       - run:
           name: Deploy Heroku Docker Container
           command: |
-            heroku container:push -a $IMAGE_NAME web
-            heroku container:release  -a $IMAGE_NAME web
+            docker tag $IMAGE_NAME antakathena/HEROKU_APP_NAME/web
+            docker push antakathena/HEROKU_APP_NAME/web
+            heroku container:release web
 
 workflows:
   heroku_deploy:
