@@ -49,11 +49,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Pull and tag image from Dockerhub
-          command: |
-            docker pull $IMAGE_NAME:$CIRCLE_SHA1
-            docker tag $IMAGE_NAME:$CIRCLE_SHA1 antakathena/$HEROKU_APP_NAME
-      - run:
           name: Install Heroku CLI, if necessary
           command: |
             if [[ $(command -v heroku) == "" ]]; then
