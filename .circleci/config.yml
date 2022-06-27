@@ -44,12 +44,12 @@ jobs:
             echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
             docker push $IMAGE_NAME:$CIRCLE_SHA1
             
-  heroku-deploy:
+  deploy:
     executor: heroku/default
     steps:
       - checkout
       - heroku/install
-      - push-docker-image
+      - heroku/push-docker-image
 
 workflows:
   heroku_deploy:
@@ -58,7 +58,7 @@ workflows:
       - publish-latest-to-DockerHub:
           requires:
             - build-lint-test
-      - heroku-deploy:
+      - deploy:
           requires:
             - publish-latest-to-DockerHub
 
