@@ -59,15 +59,9 @@ jobs:
           command: |
             docker pull $IMAGE_NAME:$CIRCLE_SHA1
             docker tag $IMAGE_NAME:$CIRCLE_SHA1 antakathena/oc-lettings-5/web
-      - run:
-          name: Login into Heroku Docker Repository
-          command: |
-            docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
-      - run:
-          name: Deploy Heroku Docker Container
-          command: |
-            docker push antakathena/oc-lettings-5/web
-            heroku container:release web
+            HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
+            HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push --app=antakathena/oc-lettings-5/web
+            HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release -a antakathena/oc-lettings-5/web
 
 workflows:
   heroku_deploy:
