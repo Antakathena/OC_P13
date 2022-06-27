@@ -46,10 +46,10 @@ jobs:
             
   heroku-deploy:
     executor: heroku/default
-      steps:
-          - checkout
-            - heroku/install
-            - push-docker-image
+    steps:
+      - checkout
+      - heroku/install
+      - push-docker-image
 
 workflows:
   heroku_deploy:
