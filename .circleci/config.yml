@@ -54,14 +54,7 @@ jobs:
           docker-password: DOCKERHUB_PASSWORD
       - checkout
       - heroku/install
-      - run:
-          name: pull and tag the image from Dockerhub
-          command: |
-            docker pull $IMAGE_NAME:$CIRCLE_SHA1
-            docker tag $IMAGE_NAME:$CIRCLE_SHA1 antakathena/oc-lettings-5/web
-            HEROKU_API_KEY=$HEROKU_API_KEY heroku container:login
-            HEROKU_API_KEY=$HEROKU_API_KEY heroku container:push --app=antakathena/oc-lettings-5/web web
-            HEROKU_API_KEY=$HEROKU_API_KEY heroku container:release -a antakathena/oc-lettings-5/web web
+      - heroku/deploy-via-git
 
 workflows:
   heroku_deploy:

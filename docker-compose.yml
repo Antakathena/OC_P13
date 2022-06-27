@@ -9,4 +9,5 @@ services:
       - .:/oc_lettings_project
     ports:
       - "8000:8000"
+      - "${PORT}:5000"
     container_name: oc_lettings_container
