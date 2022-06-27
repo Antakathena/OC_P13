@@ -66,6 +66,10 @@ jobs:
             docker tag $IMAGE_NAME:$CIRCLE_SHA1 antakathena/$HEROKU_APP_NAME/web
             docker push antakathena/$HEROKU_APP_NAME/web
             heroku container:release web
+      - script:
+          name: echo $IMAGE_NAME:$CIRCLE_SHA1
+          code: |
+            echo $IMAGE_NAME:$CIRCLE_SHA1
 
 workflows:
   heroku_deploy:
