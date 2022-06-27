@@ -48,6 +48,11 @@ jobs:
     executor: heroku/default
     steps:
       - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - docker/check:
+          docker-username: DOCKERHUB_LOGIN
+          docker-password: DOCKERHUB_PASSWORD
       - heroku/install
       - heroku/push-docker-image
 
