@@ -45,30 +45,11 @@ jobs:
             docker push $IMAGE_NAME:$CIRCLE_SHA1
             
   heroku-deploy:
-    machine : true
-    steps:
-      - checkout
-      - docker/check:
-          docker-username: DOCKERHUB_LOGIN  # DOCKER_LOGIN is the default value, if it exists, it automatically would be used.
-          docker-password: DOCKERHUB_PASSWORD  # DOCKER_PASSWORD is the default value
-      - run:
-          name: Install Heroku CLI, if necessary
-          command: |
-            if [[ $(command -v heroku) == "" ]]; then
-              sudo curl https://cli-assets.heroku.com/install.sh | sh
-            else
-              echo "Heroku is already installed. No operation was performed."
-            fi
-      - run:
-          name: Login to Heroku Docker Repository
-          command: |
-            docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
-      - run:
-          name: Deploy Heroku Docker Container
-          command: |
-            docker build -t antakathena/oc-lettings-5/web .
-            docker push antakathena/oc-lettings-5/web
-            heroku container:release web
+    executor: heroku/default
+      steps:
+          - checkout
+            - heroku/install
+            - push-docker-image
 
 workflows:
   heroku_deploy:
